@@ -13,7 +13,7 @@ extern "C"
 
 #include <iostream>
 #include <lsm9ds1_handler/lsm9ds1_registers.hpp>
-#include <rclcpp/rclcpp.hpp>
+#include <unordered_map>
 
 namespace lsm9ds1
 {

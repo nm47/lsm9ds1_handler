@@ -63,20 +63,19 @@ void LSM9DS1_Device::initialize()
     if ((fd_accelgyro_ < 0) | (fd_mag_ < 0))
     {
         int errsv = errno; // printf may overwrite errno, save ioctl result
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "ioctl failed to open device at %s: %s", device_path.c_str(),
-                     strerror(errsv));
+        printf("ioctl failed to open device at %s: %s\n", device_path.c_str(), strerror(errsv));
     }
 
     // no need to mutex reads/writes, linux i2c driver handles this for us.
     if (ioctl(fd_accelgyro_, I2C_SLAVE, i2c_address_accelgyro_) < 0)
     {
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to find accel/gyro at address: %d.", i2c_address_accelgyro_);
+        printf("Failed to find accel/gyro at address: %d.\n", i2c_address_accelgyro_);
         exit(1);
     }
 
     if (ioctl(fd_mag_, I2C_SLAVE, i2c_address_mag_) < 0)
     {
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to find mag address: %d.", i2c_address_mag_);
+        printf("Failed to find mag address: %d.\n", i2c_address_mag_);
         exit(1);
     }
 
@@ -88,21 +87,21 @@ bool LSM9DS1_Device::check_devices()
 {
     if (i2c_smbus_read_byte_data(fd_accelgyro_, WHO_AM_I_AG) == WHO_AM_I_AG_RSP)
     {
-        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "found Accel/Gyro at address %#2x", i2c_address_accelgyro_);
+        printf("found Accel/Gyro at address %#2x\n", i2c_address_accelgyro_);
     }
     else
     {
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Unable to access accelgyro: %s", strerror(errno));
+        printf("Unable to access accelgyro: %s\n", strerror(errno));
         return false;
     }
 
     if (i2c_smbus_read_byte_data(fd_mag_, WHO_AM_I_M) == WHO_AM_I_M_RSP)
     {
-        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "found Magnetometer at address %#2x", i2c_address_mag_);
+        printf("found Magnetometer at address %#2x\n", i2c_address_mag_);
     }
     else
     {
-        RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Unable to access Magnetometer: %s", strerror(errno));
+        printf("Unable to access Magnetometer: %s\n", strerror(errno));
         return false;
     }
     return true;

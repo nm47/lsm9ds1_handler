@@ -14,6 +14,8 @@ def generate_launch_description():
             name='lsm9ds1_handler',
             package='lsm9ds1_handler',
             executable='lsm9ds1_node',
+            output="screen",
+            emulate_tty=True,
             parameters=[config]
         )
     ])
