@@ -1,4 +1,4 @@
-#include "lsm9ds1_handler/lsm9ds1.hpp"
+#include "lsm9ds1_handler/lsm9ds1_handler.hpp"
 
 namespace lsm9ds1
 {

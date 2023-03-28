@@ -27,15 +27,67 @@ namespace settings
 {
 
 // ask STMicroElectronics why 16 comes before 4..
-enum kAccelScale { kAccelScale2, kAccelScale16, kAccelScale4, kAccelScale8 };
-enum kAccelRate { kAccelPowerDown, kAccelHz10, kAccelHz50, kAccelHz119,   kAccelHz238, kAccelHz476, kAccelHz952 };
+enum kAccelScale
+{
+    kAccelScale2,
+    kAccelScale16,
+    kAccelScale4,
+    kAccelScale8
+};
+enum kAccelRate
+{
+    kAccelPowerDown,
+    kAccelHz10,
+    kAccelHz50,
+    kAccelHz119,
+    kAccelHz238,
+    kAccelHz476,
+    kAccelHz952
+};
 
-enum kGyroScale { kGyroScale245, kGyroScale500, kUnavailable, kGyroScale2000 };
-enum kGyroRate { kGyroPowerDown, kGyroHz14_9, kGyroHz59_5, kGyroHz119, kGyroHz238, kGyroHz476, kGyroHz952};
+enum kGyroScale
+{
+    kGyroScale245,
+    kGyroScale500,
+    kUnavailable,
+    kGyroScale2000
+};
+enum kGyroRate
+{
+    kGyroPowerDown,
+    kGyroHz14_9,
+    kGyroHz59_5,
+    kGyroHz119,
+    kGyroHz238,
+    kGyroHz476,
+    kGyroHz952
+};
 
-enum kMagPerformance { kMagPerformanceLowPower, kMagPerformanceMedium, kMagPerformanceHigh, kMagPerformanceUltra };
-enum kMagScale { kMagScale4, kMagScale8, kMagScale12, kMagScale16 };
-enum kMagRate { kMagHz0_625, kMagHz1_25, kMagHz2_5, kMagHz5, kMagHz10, kMagHz20, kMagHz40, kMagHz80};
+enum kMagScale
+{
+    kMagScale4,
+    kMagScale8,
+    kMagScale12,
+    kMagScale16
+};
+enum kMagRate
+{
+    kMagHz0_625,
+    kMagHz1_25,
+    kMagHz2_5,
+    kMagHz5,
+    kMagHz10,
+    kMagHz20,
+    kMagHz40,
+    kMagHz80
+};
+enum kMagPerformance
+{
+    kMagPerformanceLowPower,
+    kMagPerformanceMedium,
+    kMagPerformanceHigh,
+    kMagPerformanceUltra
+};
 
 const std::unordered_map<uint8_t, float> kAccelSensMap{
     {kAccelScale2, 0.061f}, {kAccelScale4, 0.122f}, {kAccelScale8, 0.244f}, {kAccelScale16, 0.732f}};
@@ -43,7 +95,7 @@ const std::unordered_map<uint8_t, float> kGyroSensMap{
     {kGyroScale245, 0.14f}, {kGyroScale500, 17.50f}, {kGyroScale2000, 70.0f}};
 const std::unordered_map<uint8_t, float> kMagSensMap{
     {kMagScale4, 0.14f}, {kMagScale8, 0.29f}, {kMagScale12, 0.43f}, {kMagScale16, 0.58f}};
-} // namespace constants
+} // namespace settings
 
 typedef struct
 {

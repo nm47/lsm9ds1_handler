@@ -1,0 +1,27 @@
+lsm9ds1_handler:
+  ros__parameters:
+    #/dev/i2c-3
+    i2c_interface: 3
+    
+    # default addresses for the lsm9ds1
+    i2c_address_accelgyro: 0x6b
+    i2c_address_mag: 0x1e
+
+    # ask STMicroElectronics why 16 comes before 4..
+    # Acceleration scale: 0 -> 2g, 1 -> 16g, 2 -> 4g, 3 -> 8g
+    accel_scale: 0
+
+    # Accelerometer rate: 0 -> Power Down, 1 -> 10hz, 2 -> 50hz, 3 -> 119hz, 4 -> 238hz, 5 -> 476hz 6 -> 952hz
+    accel_rate: 1
+
+    # Magnetometer scale: 0 -> 4 gauss, 1 -> 8 gauss, 2 -> 12 gauss, 3 -> 16 gauss
+    mag_scale: 3
+
+    # Magnetometer rate: 0 -> 0.625hz, 1 -> 1.25hz, 2 -> 2.5hz, 3 -> 5hz, 4 -> 10hz, 5 -> 20hz, 6 -> 40hz, 7 -> 80hz
+    mag_rate: 7
+
+    # Gyro scale: 0 -> 245, 1 -> 500, 2 - > Unavailable, 3 -> 2000
+    gyro_scale: 3
+
+    # Gyro rate: 0 -> Power Down, 1 -> 14.9hz, 2 -> 59.5hz, 3 -> 119hz, 4 -> 238hz, 5 -> 476hz, 6 952hz
+    gyro_rate: 3

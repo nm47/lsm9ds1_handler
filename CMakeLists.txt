@@ -13,7 +13,7 @@ find_package(sensor_msgs REQUIRED)
 include_directories(include)
 
 add_library(lsm9ds1_handler SHARED
-    src/lsm9ds1.cpp
+    src/lsm9ds1_handler.cpp
     src/lsm9ds1_device.cpp
 )
 
@@ -43,6 +43,12 @@ install(TARGETS
   lsm9ds1_handler
   DESTINATION lib
 ) 
+
+install(DIRECTORY
+   launch
+   config
+   DESTINATION share/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

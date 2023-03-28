@@ -34,7 +34,8 @@ void LSM9DS1_Device::configure_mag(const uint8_t scale, const uint8_t rate, bool
     mag_rate_ = rate;
 
     // wake up mag, set rate and scale
-    uint8_t mag_reg1 = (temp_comp << 7) | (static_cast<uint8_t>(settings::kMagPerformance::kMagPerformanceUltra) << 5) | (mag_rate_ << 2);
+    uint8_t mag_reg1 = (temp_comp << 7) | (static_cast<uint8_t>(settings::kMagPerformance::kMagPerformanceUltra) << 5) |
+                       (mag_rate_ << 2);
     uint8_t mag_reg2 = (mag_scale_ << 5);
 
     i2c_smbus_write_byte_data(fd_mag_, CTRL_REG1_M, mag_reg1);
@@ -111,7 +112,7 @@ void LSM9DS1_Device::calibrate_accelgyro()
 {
 }
 
-void LSM9DS1_Device::read_accel(Axis3 &accels, bool scaled/* = true*/)
+void LSM9DS1_Device::read_accel(Axis3 &accels, bool scaled /* = true*/)
 {
     // read 6 bytes, LSM9DS1 will automatically increment the register
     // so we can read all the raw accel/gyro data in one go.
@@ -128,7 +129,8 @@ void LSM9DS1_Device::read_accel(Axis3 &accels, bool scaled/* = true*/)
     accels.z = (float)raw_linear_accel_z;
 
     // multiply by accelerometer sensitivity values from datasheet and convert to m/s^2
-    if (scaled){
+    if (scaled)
+    {
         accels.x = (accels.x - accel_offset_.x) * settings::kAccelSensMap.at(accel_scale_);
         accels.x = (accels.x / 1000.0f) * constants::kGravity;
 
@@ -140,7 +142,7 @@ void LSM9DS1_Device::read_accel(Axis3 &accels, bool scaled/* = true*/)
     }
 }
 
-void LSM9DS1_Device::read_gyro(Axis3 &angular_vel, bool scaled/* = true*/)
+void LSM9DS1_Device::read_gyro(Axis3 &angular_vel, bool scaled /* = true*/)
 {
     // read 12 bytes, LSM9DS1 will automatically increment the register
     // so we can read all the raw accel/gyro data in one go.
@@ -157,17 +159,15 @@ void LSM9DS1_Device::read_gyro(Axis3 &angular_vel, bool scaled/* = true*/)
     angular_vel.z = (float)raw_angular_velocity_z;
 
     // multiply by gyro sensitivity values from datasheet and convert to dps
-    if (scaled){
-        angular_vel.x =
-            ((angular_vel.x) * settings::kGyroSensMap.at(gyro_scale_)) / 1000.0f;
-        angular_vel.y =
-            ((angular_vel.y) * settings::kGyroSensMap.at(gyro_scale_)) / 1000.0f;
-        angular_vel.z =
-            ((angular_vel.z) * settings::kGyroSensMap.at(gyro_scale_)) / 1000.0f;
+    if (scaled)
+    {
+        angular_vel.x = ((angular_vel.x) * settings::kGyroSensMap.at(gyro_scale_)) / 1000.0f;
+        angular_vel.y = ((angular_vel.y) * settings::kGyroSensMap.at(gyro_scale_)) / 1000.0f;
+        angular_vel.z = ((angular_vel.z) * settings::kGyroSensMap.at(gyro_scale_)) / 1000.0f;
     }
 }
 
-void LSM9DS1_Device::read_mag(Axis3 &mag_gauss, bool scaled/* = true*/)
+void LSM9DS1_Device::read_mag(Axis3 &mag_gauss, bool scaled /* = true*/)
 {
     // read 12 bytes, LSM9DS1 will automatically increment the register
     // so we can read all the raw accel/gyro data in one go.
@@ -184,19 +184,18 @@ void LSM9DS1_Device::read_mag(Axis3 &mag_gauss, bool scaled/* = true*/)
     mag_gauss.z = (float)raw_gauss_z;
 
     // multiply by gyro sensitivity values from datasheet and convert to dps
-    if (scaled){
-        mag_gauss.x =
-            ((mag_gauss.x) * settings::kMagSensMap.at(mag_scale_)) / 1000.0f;
-        mag_gauss.y =
-            ((mag_gauss.y) * settings::kMagSensMap.at(mag_scale_)) / 1000.0f;
-        mag_gauss.z =
-            ((mag_gauss.z) * settings::kMagSensMap.at(mag_scale_)) / 1000.0f;
+    if (scaled)
+    {
+        mag_gauss.x = ((mag_gauss.x) * settings::kMagSensMap.at(mag_scale_)) / 1000.0f;
+        mag_gauss.y = ((mag_gauss.y) * settings::kMagSensMap.at(mag_scale_)) / 1000.0f;
+        mag_gauss.z = ((mag_gauss.z) * settings::kMagSensMap.at(mag_scale_)) / 1000.0f;
     }
 }
 
-IMURecord LSM9DS1_Device::read_all(bool scaled /*= true*/){
+IMURecord LSM9DS1_Device::read_all(bool scaled /*= true*/)
+{
     IMURecord imu_data;
-    
+
     read_accel(imu_data.raw_linear_acceleration, scaled);
     read_gyro(imu_data.raw_angular_velocity, scaled);
     read_mag(imu_data.raw_magnetic_field, scaled);
