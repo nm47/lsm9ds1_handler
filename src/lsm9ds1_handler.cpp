@@ -20,6 +20,7 @@ void LSM9DS1::declare_ROS_params()
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "initializing lsm9ds1 handler");
 
     node_ = std::make_shared<rclcpp::Node>(imu_name_);
+    node_->declare_parameter<int>("frequency", 100);
     node_->declare_parameter<uint8_t>("i2c_interface", 1);
     node_->declare_parameter<uint8_t>("i2c_address_mag", 0x1e);
     node_->declare_parameter<uint8_t>("i2c_address_accelgyro", 0x6b);
@@ -36,20 +37,14 @@ void LSM9DS1::declare_ROS_params()
 
 void LSM9DS1::initialize()
 {
+    int frequency = node_->get_parameter("frequency").get_parameter_value().get<int>();
     uint8_t bus_index = node_->get_parameter("i2c_interface").get_parameter_value().get<uint8_t>();
-
     uint8_t i2c_address_accelgyro = node_->get_parameter("i2c_address_accelgyro").get_parameter_value().get<uint8_t>();
-
     uint8_t i2c_address_mag = node_->get_parameter("i2c_address_mag").get_parameter_value().get<uint8_t>();
-
     uint8_t accel_rate = node_->get_parameter("accel_rate").get_parameter_value().get<uint8_t>();
-
     uint8_t accel_scale = node_->get_parameter("accel_scale").get_parameter_value().get<uint8_t>();
-
     uint8_t gyro_rate = node_->get_parameter("gyro_rate").get_parameter_value().get<uint8_t>();
-
     uint8_t gyro_scale = node_->get_parameter("gyro_scale").get_parameter_value().get<uint8_t>();
-
     uint8_t mag_rate = node_->get_parameter("mag_rate").get_parameter_value().get<uint8_t>();
     uint8_t mag_scale = node_->get_parameter("mag_scale").get_parameter_value().get<uint8_t>();
 
@@ -70,8 +65,13 @@ void LSM9DS1::initialize()
 
     lsm9ds1_device_->calibrate_accelgyro();
 
+    if (frequency == 0)
+    {
+        throw std::runtime_error("error: frequency cannot be 0\n");
+    }
+
     publisher_ = node_->create_publisher<sensor_msgs::msg::Imu>(imu_name_ + "/telemetry", 10);
-    timer_ = node_->create_wall_timer(std::chrono::milliseconds(10), std::bind(&LSM9DS1::read_IMU, this));
+    timer_ = node_->create_wall_timer(std::chrono::milliseconds(1000 / frequency), std::bind(&LSM9DS1::read_IMU, this));
 }
 
 void LSM9DS1::read_IMU()

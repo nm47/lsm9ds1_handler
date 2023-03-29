@@ -3,6 +3,9 @@ lsm9ds1_handler:
     #/dev/i2c-3
     i2c_interface: 3
     
+    # telemetry publish rate
+    frequency: 100 # [Hz]
+
     # default addresses for the lsm9ds1
     i2c_address_accelgyro: 0x6b
     i2c_address_mag: 0x1e
